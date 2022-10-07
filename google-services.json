@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "641023770270",
+    "firebase_url": "https://srmt-c750e.firebaseio.com",
+    "project_id": "srmt-c750e",
+    "storage_bucket": "srmt-c750e.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:641023770270:android:03c61d3e894a766b5bc58f",
+        "android_client_info": {
+          "package_name": "com.umb.srmt"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "641023770270-qgmhta3g1ep6f8e7nh877rhl6065jdom.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.umb.srmt",
+            "certificate_hash": "23be42ef8e2e774b658f8e5ade66f71e3109a635"
+          }
+        },
+        {
+          "client_id": "641023770270-kvjaa8rqeldt12b00qoafuuc5cp68r8e.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC59x4-b9fJOkMLKptMAKrCIkAW1_tph80"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "641023770270-kvjaa8rqeldt12b00qoafuuc5cp68r8e.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

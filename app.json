@@ -1,0 +1,51 @@
+{
+  "expo": {
+    "name": "srmt2022",
+    "slug": "srmt2022",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./app/assets/icon.png",
+    "userInterfaceStyle": "light",
+    "splash": {
+      "image": "./app/assets/splash.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#ffffff"
+    },
+    "updates": {
+      "fallbackToCacheTimeout": 0
+    },
+    "assetBundlePatterns": [
+      "**/*"
+    ],
+    "ios": {
+      "supportsTablet": true
+    },
+    "android": {
+      "googleServicesFile": "./google-services.json",
+      "permissions": [
+        "CAMERA_ROLL",
+        "READ_EXTERNAL_STORAGE",
+        "WRITE_EXTERNAL_STORAGE",
+        "LOCATION",
+        "ACCESS_COARSE_LOCATION",
+        "ACCESS_FINE_LOCATION"
+      ],
+      "adaptiveIcon": {
+        "foregroundImage": "./app/assets/adaptive-icon.png",
+        "backgroundColor": "#FFFFFF"
+      }
+    },
+    "web": {
+      "favicon": "./app/assets/favicon.png"
+    },
+    "extra":{
+      "apiKey": "AIzaSyBSRw0V1g4Bgdcy12O4hvfkWH8Sr5EoiVI",
+      "authDomain": "srmt-c750e.firebaseapp.com",
+      "databaseURL": "https://srmt-c750e.firebaseio.com",
+      "projectId": "srmt-c750e",
+      "storageBucket": "srmt-c750e.appspot.com",
+      "messagingSenderId": "641023770270",
+      "appId": "1:641023770270:web:bd9d08fa8fb675375bc58f"
+    }
+  }
+}

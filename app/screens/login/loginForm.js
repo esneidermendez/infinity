@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { StyleSheet, View } from "react-native";
+import { Alert, StyleSheet, View } from "react-native";
 import { Input, Icon, Button } from "react-native-elements";
 import { firebaseauth, EmailAndPassword } from "../../utils/dataBase/firabase";
 import { useNavigation } from "@react-navigation/native";
@@ -18,17 +18,17 @@ export default function LoginForm(props) {
   };
   const onSummit = () => {
     if (formData.email.length == 0 || formData.password.length == 0) {
-      toasRef.current.show("Todos los campos son obligatorios");
+      Alert("Todos los campos son obligatorios");
     } else if (!validateEmail(formData.email)) {
       console.log(formData.email);
-      toasRef.current.show("El email no es correcto ");
+      alert("El email no es correcto ");
     } else {
       setLoading(true);
       EmailAndPassword(firebaseauth, formData.email, formData.password)
         .then((userCredential) => {
           setLoading(false);
           console.log(userCredential);
-          navigation.navigate("Home");
+          navigation.navigate("validateSession");
         })
         .catch(() => {
           setLoading(false);

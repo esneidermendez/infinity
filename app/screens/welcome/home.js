@@ -4,8 +4,10 @@ import ImagenHome from "../../element/ImagenHome";
 import Header from "../../element/Header";
 import Button from "../../element/Button";
 import Paragraph from "../../element/Paragraph";
+import { useNavigation } from "@react-navigation/native";
 
-export default function HomeScreen({ navigation }) {
+export default function HomeScreen() {
+  const navigation = useNavigation();
   return (
     <Background>
       <ImagenHome />
@@ -14,10 +16,7 @@ export default function HomeScreen({ navigation }) {
         Disfruta de consejos para el uso diario de Transmilenio y estadísticas
         sobre reportes en tiempo real
       </Paragraph>
-      <Button
-        mode="contained"
-        onPress={() => navigation.navigate("Permissions")}
-      >
+      <Button onPress={() => navigation.navigate("Permissions")}>
         Siguiente
       </Button>
     </Background>

@@ -1,4 +1,5 @@
 import React from "react";
+import * as Location from "expo-location";
 import Background from "../../element/Background";
 import Scroll from "../../element/Scroll";
 import Header from "../../element/Header";
@@ -9,9 +10,12 @@ import * as permissions from "expo-permissions";
 export default function Permissions({ navigation }) {
   const pLocation = () => {
     (async () => {
-      const resultPermissions = await permissions.askAsync(
-        permissions.LOCATION
-      );
+      const resultPermissions =
+        await Location.requestForegroundPermissionsAsync();
+      if (statusPermissions.status !== "granted") {
+        alert("Tienes que aceptar los permisos de localizacion", 3000);
+        return;
+      }
     })();
   };
   const pCamera = () => {
@@ -34,9 +38,7 @@ export default function Permissions({ navigation }) {
         Para mejorar el funcionamiento del aplicativo requerimos algunos
         permisos sobre este dispositivo
       </Paragraph>
-      <Button mode="contained" onPress={() => onClick()}>
-        Siguiente
-      </Button>
+      <Button onPress={() => onClick()}>Siguiente</Button>
     </Background>
   );
 }

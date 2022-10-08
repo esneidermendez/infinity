@@ -4,10 +4,10 @@ import Background from "./Background";
 
 export default function Logo() {
   return (
-      <Image
-        source={require("../assets/img/logo_size.png")}
-        style={styles.image}
-      />
+    <Image
+      source={require("../assets/img/logo_size.png")}
+      style={styles.image}
+    />
   );
 }
 
@@ -17,6 +17,5 @@ const styles = StyleSheet.create({
     height: "25%",
     marginTop: "10%",
     marginEnd: "10%",
-    borderColor: "5%",
   },
 });

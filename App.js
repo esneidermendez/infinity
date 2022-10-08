@@ -9,6 +9,8 @@ import {
   Permissions,
   StartScreen,
   Login,
+  validateSession,
+  navigationApp,
 } from "./app/screens";
 const Stack = createStackNavigator();
 
@@ -17,7 +19,7 @@ export default function App() {
     <Provider theme={theme}>
       <NavigationContainer>
         <Stack.Navigator
-          initialRouteName="HomeScreen"
+          initialRouteName="validateSession"
           screenOptions={{
             headerShown: false,
           }}
@@ -26,6 +28,8 @@ export default function App() {
           <Stack.Screen name="Permissions" component={Permissions} />
           <Stack.Screen name="Start" component={StartScreen} />
           <Stack.Screen name="Login" component={Login} />
+          <Stack.Screen name="validateSession" component={validateSession} />
+          <Stack.Screen name="navigationApp" component={navigationApp} />
           {/*<Stack.Screen name="RegisterScreen" component={RegisterScreen} />
           <Stack.Screen name="Dashboard" component={Dashboard} />
           <Stack.Screen name="ResetPasswordScreen" component={ResetPasswordScreen} /> */}

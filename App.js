@@ -11,6 +11,8 @@ import {
   Login,
   validateSession,
   navigationApp,
+  ListNews,
+  CreateNew,
 } from "./app/screens";
 const Stack = createStackNavigator();
 
@@ -30,6 +32,8 @@ export default function App() {
           <Stack.Screen name="Login" component={Login} />
           <Stack.Screen name="validateSession" component={validateSession} />
           <Stack.Screen name="navigationApp" component={navigationApp} />
+          <Stack.Screen name="ListNews" component={ListNews} />
+          <Stack.Screen name="CreateNew" component={CreateNew} />
           {/*<Stack.Screen name="RegisterScreen" component={RegisterScreen} />
           <Stack.Screen name="Dashboard" component={Dashboard} />
           <Stack.Screen name="ResetPasswordScreen" component={ResetPasswordScreen} /> */}

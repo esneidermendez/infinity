@@ -12,7 +12,7 @@ export default function StartScreen({ navigation }) {
         <Button mode="contained" onPress={() => navigation.navigate("Login")}>
           Iniciar Sesión
         </Button>
-        <Button
+        <Button style={styles.btnStyle2}
           mode="outlined"
           onPress={() => navigation.navigate("RegisterScreen")}
         >
@@ -58,7 +58,8 @@ const styles = StyleSheet.create({
     borderRadius: 50,
   },
   btnStyle2: {
-    backgroundColor: "#EDEDED",
+    backgroundColor: "#cdcdcd",
+    font_color:'black',
     borderRadius: 50,
   },
   Divider: {

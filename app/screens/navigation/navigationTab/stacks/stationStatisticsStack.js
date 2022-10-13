@@ -5,19 +5,23 @@ import StationStatistics from "../../../stadistics/stationStatistics";
 
 const Stack = createStackNavigator();
 
-export default function MapStack() {
+export default function StationStatisticsStack() {
   return (
     <Stack.Navigator>
       <Stack.Screen
         name="ListStations"
         component={ListStations}
-        options={{ title: "Estadisticas" }}
+        options={{
+          title: "Lista de Estaciones",
+        }}
       />
 
       <Stack.Screen
         name="StationStatistics"
         component={StationStatistics}
-        options={{ title: "Estadisticas" }}
+        options={{
+          title: "Estadisticas",
+        }}
       />
     </Stack.Navigator>
   );

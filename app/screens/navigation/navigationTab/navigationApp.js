@@ -8,10 +8,10 @@ import AcountUser from "./stacks/acountUser";
 import AboutSRMTStack from "./stacks/aboutSRMTStack";
 
 export default function NavigationApp() {
-  const TabNavegacion = createBottomTabNavigator();
+  const TabNavigation = createBottomTabNavigator();
 
   return (
-    <TabNavegacion.Navigator
+    <TabNavigation.Navigator
       initialRouteName="MapStack"
       tabBarOptions={{
         inactiveTintColor: "#1A1A1A",
@@ -21,7 +21,7 @@ export default function NavigationApp() {
         tabBarIcon: ({ color }) => screenOptions(route, color),
       })}
     >
-      <TabNavegacion.Screen
+      <TabNavigation.Screen
         name="StationStatisticsStack"
         component={StationStatisticsStack}
         options={{
@@ -29,24 +29,24 @@ export default function NavigationApp() {
         }}
       />
 
-      <TabNavegacion.Screen
+      <TabNavigation.Screen
         name="MapStack"
         component={MapStack}
         options={{ title: "Mapa" }}
       />
 
-      <TabNavegacion.Screen
+      <TabNavigation.Screen
         name="AcountUser"
         component={AcountUser}
         options={{ title: "Perfil" }}
       />
 
-      <TabNavegacion.Screen
+      <TabNavigation.Screen
         name="AboutSRMTStack"
         component={AboutSRMTStack}
         options={{ title: "S.R.M.T." }}
       />
-    </TabNavegacion.Navigator>
+    </TabNavigation.Navigator>
   );
 }
 

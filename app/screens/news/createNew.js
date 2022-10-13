@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, cloneElement } from "react";
 import { View, StyleSheet, Image, Alert } from "react-native";
 import { Button, Input, Text, Icon } from "react-native-elements";
 import RadioForm from "react-native-simple-radio-button";
@@ -6,6 +6,8 @@ import {
   db,
   collection,
   getDocs,
+  dbSetDoc,
+  addDoc,
   doc,
   firebaseauth,
 } from "../../utils/dataBase/firabase";
@@ -13,7 +15,6 @@ import { ScrollView } from "react-native-gesture-handler";
 import Moment from "moment";
 import * as permissions from "expo-permissions";
 import * as ImagePicker from "expo-image-picker";
-import { async } from "@firebase/util";
 
 function CreateNew(props) {
   //atributos
@@ -44,23 +45,26 @@ function CreateNew(props) {
   };
 
   const createNew = async () => {
-    console.log(state);
     if (state.title === "" || state.type === "" || state.description === "") {
-      Alert.alert("Validacion Campos", "Por favor valide los campos");
+      alert("Validacion Campos", "Por favor valide los campos");
     } else {
-      await firebase.dbFirestore
-        .collection("News")
-        .doc(props.route.params.station.id)
-        .collection("NewsStation")
-        .add({
-          title: state.title,
-          type: state.type,
-          description: state.description,
-          dateC: state.dateC,
-          gender: user.Gender,
-          userId: user.UserID,
+      const newRef = doc(db, "News", firebaseauth.currentUser.uid);
+      console.log(newRef);
+      await addDoc(collection(newRef, "NewsStation"), {
+        title: state.title,
+        type: state.type,
+        description: state.description,
+        dateC: state.dateC,
+        gender: user.Gender,
+        userId: user.UserID,
+      })
+        .then((data) => {
+          alert("noticia cargada");
+          props.navigation.navigate("ListNews");
+        })
+        .catch(() => {
+          alert("la noticia no se pudo cargar");
         });
-      props.navigation.navigate("ListNews");
     }
   };
 

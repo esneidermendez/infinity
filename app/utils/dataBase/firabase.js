@@ -1,10 +1,22 @@
 import { initializeApp } from "firebase/app";
-import { getFirestore, collection, getDocs, doc } from "firebase/firestore";
-import { getStorage } from "firebase/storage";
+import {
+  getFirestore,
+  collection,
+  getDocs,
+  doc,
+  setDoc,
+  addDoc,
+} from "firebase/firestore";
+import { getStorage, ref, uploadBytes } from "firebase/storage";
 import {
   getAuth,
+  EmailAuthProvider,
   onAuthStateChanged,
   signInWithEmailAndPassword,
+  createUserWithEmailAndPassword,
+  updateProfile,
+  updatePassword,
+  reauthenticateWithCredential,
 } from "firebase/auth";
 import Constants from "expo-constants";
 
@@ -22,10 +34,17 @@ const firebaseConfig = {
 // initialize firebase
 const firebaseApp = initializeApp(firebaseConfig);
 const db = getFirestore(firebaseApp);
+const dbSetDoc = setDoc;
 const firebaseauth = getAuth();
 const EmailAndPassword = signInWithEmailAndPassword;
 const authStateChanged = onAuthStateChanged;
+const createUser = createUserWithEmailAndPassword;
+const reauthenticated = reauthenticateWithCredential;
+const updateProfil = updateProfile;
+const updatePass = updatePassword;
 const storage = getStorage();
+const UploadBytes = uploadBytes;
+const getRef = ref;
 
 export {
   firebaseApp,
@@ -33,8 +52,17 @@ export {
   collection,
   getDocs,
   doc,
+  dbSetDoc,
   firebaseauth,
   storage,
+  UploadBytes,
+  getRef,
   EmailAndPassword,
   authStateChanged,
+  createUser,
+  reauthenticated,
+  updateProfil,
+  updatePass,
+  EmailAuthProvider,
+  addDoc,
 };

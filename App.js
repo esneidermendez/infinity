@@ -13,6 +13,9 @@ import {
   navigationApp,
   ListNews,
   CreateNew,
+  CloseSession,
+  RegisterScreen,
+  RegisterForm,
 } from "./app/screens";
 const Stack = createStackNavigator();
 
@@ -34,8 +37,10 @@ export default function App() {
           <Stack.Screen name="navigationApp" component={navigationApp} />
           <Stack.Screen name="ListNews" component={ListNews} />
           <Stack.Screen name="CreateNew" component={CreateNew} />
-          {/*<Stack.Screen name="RegisterScreen" component={RegisterScreen} />
-          <Stack.Screen name="Dashboard" component={Dashboard} />
+          <Stack.Screen name="CloseSession" component={CloseSession} />
+          <Stack.Screen name="RegisterScreen" component={RegisterScreen} />
+          <Stack.Screen name="RegisterForm" component={RegisterForm} />
+          {/*<Stack.Screen name="Dashboard" component={Dashboard} />
           <Stack.Screen name="ResetPasswordScreen" component={ResetPasswordScreen} /> */}
         </Stack.Navigator>
       </NavigationContainer>

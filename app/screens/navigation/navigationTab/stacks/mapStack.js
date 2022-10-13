@@ -6,12 +6,8 @@ const Stack = createStackNavigator();
 
 export default function MapStack() {
   return (
-    <Stack.Navigator headerMode="none">
-      <Stack.Screen
-        name="Map"
-        component={Map}
-        screenOptions={{ tabBarShowLabel: "False" }}
-      />
+    <Stack.Navigator headerMode="none" screenOptions={{ headerShown: false }}>
+      <Stack.Screen name="Map" component={Map} />
     </Stack.Navigator>
   );
 }

@@ -1,8 +1,10 @@
 import React from "react";
 import { StyleSheet, View, ImageBackground } from "react-native";
 import Button from "../../element/Button";
+import { useNavigation } from "@react-navigation/native";
 
-export default function StartScreen({ navigation }) {
+export default function StartScreen() {
+  const navigation = useNavigation();
   return (
     <ImageBackground
       source={require("../../assets/img/bogota-4457796_1920.jpg")}

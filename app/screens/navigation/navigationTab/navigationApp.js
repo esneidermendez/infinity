@@ -33,6 +33,7 @@ export default function NavigationApp() {
         name="MapStack"
         component={MapStack}
         options={{ title: "Mapa" }}
+        scscreenOptions={{ headerShown: false }}
       />
 
       <TabNavegacion.Screen

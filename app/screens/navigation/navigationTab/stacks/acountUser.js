@@ -1,17 +1,14 @@
 import React from "react";
 import { createStackNavigator } from "@react-navigation/stack";
-import CerrarSesion from "../../../login/CerrarSesion";
+import closeSession from "../../../login/closeSession";
+import { TabView } from "react-native-elements";
 
 const Stack = createStackNavigator();
 
 export default function MapStack() {
   return (
-    <Stack.Navigator>
-      <Stack.Screen
-        name="Acount"
-        component={CerrarSesion}
-        options={{ title: "Perfil" }}
-      />
+    <Stack.Navigator screenOptions={{ headerShown: false }}>
+      <Stack.Screen name="Acount" component={closeSession} />
     </Stack.Navigator>
   );
 }

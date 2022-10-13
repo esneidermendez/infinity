@@ -7,7 +7,7 @@ const Stack = createStackNavigator();
 
 export default function MapStack() {
   return (
-    <Stack.Navigator>
+    <Stack.Navigator screenOptions={{ headerShown: false }}>
       <Stack.Screen
         name="ListStations"
         component={ListStations}

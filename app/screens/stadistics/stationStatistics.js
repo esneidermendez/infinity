@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { View, ScrollView, StyleSheet } from "react-native";
 import { Button } from "react-native-elements";
+import { theme } from '../../core/theme';
 import { useNavigation } from "@react-navigation/native";
 import {
   VictoryBar,
   VictoryPie,
   VictoryLabel,
+  VictoryTheme,
   VictoryChart,
   VictoryGroup,
 } from "victory-native";
@@ -68,8 +70,6 @@ export default function StationStatistics(props) {
     const countNewForTypes = { x: "", count: 0, y: 0 };
     countNewForTypes.x = elementType.label;
     news.map(function (elementNew) {
-      console.log("countNewForTypes::::::::::::::::::::::::::::::");
-      console.log(countNewForTypes);
       if (elementNew.type.label == elementType.label) {
         countNewForTypes.count = countNewForTypes.count + 1;
         countNewForTypes.y = countNewForTypes.count / totalNews;
@@ -91,8 +91,6 @@ export default function StationStatistics(props) {
     const miles = colores.filter(function (element) {
       return element;
     });
-    console.log("miles");
-    console.log(miles);
     return colores;
   };
   const configurarGrafica = () => {
@@ -114,14 +112,23 @@ export default function StationStatistics(props) {
   };
 
   return (
-    <ScrollView>
+    <ScrollView source={require('../../assets/background_dot.png')}
+    resizeMode="repeat"
+    style={styles.background}>
       <View>
-        <VictoryPie colorScale={generarColores()} data={myTypesIncidents} innerRadius={70} labelRadius={100} style={{ labels: { fontSize: 13, fill: "white" } }} />
+        <VictoryPie
+          colorScale={generarColores()}
+          data={myTypesIncidents}
+          innerRadius={50}
+          labelRadius={100}
+          style={{ labels: { fontSize: 12, fill: "#000",alignmentBaseline:"center" } }}
+        />
         <View>
-          <VictoryChart>
+          <VictoryChart theme={VictoryTheme.material}
+  domainPadding={25}>
             <VictoryGroup>
-              <VictoryBar />
-              <VictoryBar />
+              <VictoryBar style={{ data: { fill: "#c43a31" } }}
+                  data={myTypesIncidents} />
             </VictoryGroup>
           </VictoryChart>
         </View>
@@ -151,4 +158,9 @@ const styles = StyleSheet.create({
     flex: 1,
     resizeMode: "stretch",
   },
+  background: {
+    flex: 1,
+    width: '100%',
+    backgroundColor: theme.colors.surface,
+  }
 });

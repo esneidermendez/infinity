@@ -36,7 +36,6 @@ export default function ChangeName(props) {
       updateProfil(firebaseauth.currentUser, update)
         .then(() => {
           const dbRef = doc(db, "User", firebaseauth.currentUser.uid);
-          console.log(dbRef);
           dbSetDoc(
             dbRef,
             {

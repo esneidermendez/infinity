@@ -9,5 +9,6 @@ export { default as CreateNew } from "./news/createNew";
 export { default as CloseSession } from "./login/closeSession";
 export { default as RegisterScreen } from "./register/register";
 export { default as RegisterForm } from "./register/registerForm";
+export { default as Notification } from "../element/notification";
 /*export { default as ResetPasswordScreen } from './ResetPasswordScreen'
 export { default as Dashboard } from './Dashboard' */

@@ -10,7 +10,6 @@ export default function Maps() {
   const navigation = useNavigation();
   const [ubication, setUbication] = React.useState(null);
   const [station, setStation] = React.useState([]);
-
   React.useEffect(() => {
     (async () => {
       const statusPermissions =

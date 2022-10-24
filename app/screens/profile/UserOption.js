@@ -4,7 +4,7 @@ import { ListItem, Icon } from "react-native-elements";
 import { map } from "lodash";
 import Modal from "../../core/Modal";
 import ChangeName from "./change/changeName";
-import ChangePassword from "./change/ChangePassword";
+import ChangePassword from "./change/changePassword";
 
 function UserOption(props) {
   const { userInfo, setLoading, setLoadingText } = props;

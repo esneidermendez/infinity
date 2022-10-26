@@ -6,11 +6,21 @@
     "orientation": "portrait",
     "icon": "./app/assets/icons/icon.png",
     "userInterfaceStyle": "light",
+    "plugins": [
+      [
+        "expo-notifications",
+        {
+          "icon": "./app/assets/icons/icon.png",
+          "color": "#ffffff"
+        }
+      ]
+    ],
     "splash": {
       "image": "./app/assets/img/logo_size.png",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
+
     "updates": {
       "fallbackToCacheTimeout": 0
     },

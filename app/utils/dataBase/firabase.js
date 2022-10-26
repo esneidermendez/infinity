@@ -6,6 +6,9 @@ import {
   doc,
   setDoc,
   addDoc,
+  query,
+  where,
+  onSnapshot,
 } from "firebase/firestore";
 import { getStorage, ref, uploadBytes } from "firebase/storage";
 import {
@@ -65,4 +68,7 @@ export {
   updatePass,
   EmailAuthProvider,
   addDoc,
+  query,
+  where,
+  onSnapshot,
 };

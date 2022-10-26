@@ -23,9 +23,8 @@ const styles = StyleSheet.create({
     backgroundColor: theme.colors.surface,
   },
   container: {
-    flex: 1,
-    height: '35%',
-    marginTop: '5%',
+    height: '80%',
+    marginTop: '10%',
     width: '100%',
     maxWidth: '100%',
     alignSelf: 'center',

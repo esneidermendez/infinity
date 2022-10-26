@@ -12,7 +12,7 @@ const styles = StyleSheet.create({
     fontSize: 27,
     color: '#E02A35',
     fontWeight: 'bold',
-    paddingVertical: 12,
+    marginTop:'5%',
     marginBottom: '9%',
     alignItems: 'center',
   },

@@ -18,16 +18,8 @@ export default function Permissions({ navigation }) {
       }
     })();
   };
-  const pCamera = () => {
-    (async () => {
-      const resultPermiCamera = await permissions.askAsync(
-        permissions.CAMERA_ROLL
-      );
-    })();
-  };
   const onClick = () => {
     pLocation();
-    pCamera();
     navigation.navigate("Start");
   };
   return (

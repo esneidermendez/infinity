@@ -14,7 +14,7 @@ export default function Scroll() {
       pagingEnabled
       horizontal
       showsHorizontalScrollIndicator={false}
-      style={{ width, height: '60%' }}
+      style={{ width, height: '80%' }}
     >
       {images.map((image, index) => (
         <Image
@@ -22,10 +22,10 @@ export default function Scroll() {
           source={{ uri: image }}
           style={{
             width,
-            height: '60%',
+            height: '80%',
             resizeMode: 'cover',
             alignItems: 'center',
-            marginTop: '13%',
+            marginTop: '5%',
           }}
         />
       ))}

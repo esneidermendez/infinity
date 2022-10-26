@@ -30,7 +30,9 @@ function AboutSRMT() {
         Derechos reservado a la Universidad Manuela Beltran
       </Text>
       <Image
-        source={require("../../assets/img/Escudo_UMB.png")}
+        source={{
+          uri: "https://umb.edu.co/wp-content/uploads/2021/09/Logo-UMB-1-e1642607680620.png",
+        }}
         resizeMode="contain"
         style={styles.logoUMB}
       />
@@ -57,7 +59,7 @@ const styles = StyleSheet.create({
   logoUMB: {
     width: "100%",
     marginTop: 40,
-    height: 100,
+    height: 50,
     alignItems: "center",
   },
 });

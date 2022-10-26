@@ -9,6 +9,7 @@ import {
   query,
   where,
   onSnapshot,
+  deleteDoc,
 } from "firebase/firestore";
 import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import {
@@ -80,4 +81,5 @@ export {
   onSnapshot,
   FacebookAuthProvider,
   signInWithPopup,
+  deleteDoc,
 };

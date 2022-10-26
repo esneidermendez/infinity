@@ -1,12 +1,6 @@
-import React, { useEffect, useState } from "react";
-import {
-  View,
-  ScrollView,
-  Text,
-  ActivityIndicator,
-  FlatList,
-} from "react-native";
-import { Button, ListItem, Avatar, Image, Card } from "react-native-elements";
+import React from "react";
+import { View, ScrollView, Text, ActivityIndicator, Alert } from "react-native";
+import { Button, Avatar, Image, Card, Icon } from "react-native-elements";
 import {
   db,
   collection,
@@ -14,10 +8,9 @@ import {
   doc,
   onSnapshot,
   query,
-  where,
+  firebaseauth,
+  deleteDoc,
 } from "../../utils/dataBase/firabase";
-import { useNavigation } from "@react-navigation/native";
-
 export default class ListNews extends React.Component {
   constructor(props) {
     super(props);
@@ -42,7 +35,6 @@ export default class ListNews extends React.Component {
       const datosquery = snapshot.docs;
 
       datosquery.forEach((doc) => {
-        // noticiasT.push(doc.data());
         if (noticiasT.length > 0) {
           let aux = noticiasT.find((data) => data.id === doc.id);
           if (!aux) {
@@ -62,13 +54,14 @@ export default class ListNews extends React.Component {
     let usrs = [];
     const querySnapshot = await getDocs(collection(db, "User"));
     querySnapshot.forEach((doc) => {
-      const { Gender, Name, Ndocument, Tdocument } = doc.data();
+      const { Gender, Name, Ndocument, Tdocument, photoURL } = doc.data();
       usrs.push({
         idUser: doc.id,
         Gender,
         Name,
         Ndocument,
         Tdocument,
+        photoURL,
       });
     });
     this.setState({ usuarios: usrs });
@@ -84,7 +77,37 @@ export default class ListNews extends React.Component {
     });
     this.setState({ newsUser: nU });
 
-    console.log("NOTICIAS", this.state);
+    //  console.log("NOTICIAS", this.state);
+  };
+
+  crearAlertaEliminar = (idNoticia) =>
+    Alert.alert("Eliminar Noticia", "¿Esta seguro de eliminar la noticia?", [
+      {
+        text: "SI",
+        onPress: () => this.eliminarNoticia(idNoticia),
+      },
+      {
+        text: "NO",
+        onPress: () => console.log("Cancel Pressed"),
+        style: "cancel",
+      },
+    ]);
+
+  eliminarNoticia = async (idNoticia) => {
+    console.log("ID", idNoticia);
+
+    await deleteDoc(
+      doc(
+        db,
+        "News/" +
+          this.props.route.params.station.id +
+          "/" +
+          "NewsStation/" +
+          idNoticia
+      )
+    );
+
+    await this.consultaNoticias();
   };
 
   render() {
@@ -97,9 +120,9 @@ export default class ListNews extends React.Component {
           buttonStyle={{
             borderWidth: 3,
             borderColor: "#000000",
+            borderRadius: 20,
             backgroundColor: "#DDDDDD",
             width: 300,
-            borderRadius: 20,
             margin: 15,
             marginTop: 50,
             alignSelf: "center",
@@ -130,7 +153,7 @@ export default class ListNews extends React.Component {
                       height: 50,
                     }}
                     source={{
-                      uri: "https://firebasestorage.googleapis.com/v0/b/srmt-c750e.appspot.com/o/avatar%2FAnonimo.jpg?alt=media&token=64148d88-01c2-4425-96ed-849a1b39b915",
+                      uri: noticia.photoURL,
                     }}
                   />
 
@@ -147,6 +170,24 @@ export default class ListNews extends React.Component {
                       {noticia.dateC}
                     </Text>
                   </View>
+
+                  {noticia.idUser === firebaseauth.currentUser.uid ? (
+                    <Button
+                      buttonStyle={{
+                        backgroundColor: "#f5f5f5",
+                        borderWidth: 1,
+                        borderColor: "#212121",
+                        borderRadius: 20,
+                        shadowColor: "#bdbdbd",
+                        shadowOpacity: 0.2,
+                        elevation: 6,
+                      }}
+                      icon={<Icon name="delete" size={25} color="#e53935" />}
+                      onPress={() => this.crearAlertaEliminar(noticia.id)}
+                    />
+                  ) : (
+                    <></>
+                  )}
                 </View>
 
                 <View

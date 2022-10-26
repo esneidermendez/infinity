@@ -4,10 +4,10 @@
     "slug": "srmt2022",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./app/assets/icon.png",
+    "icon": "./app/assets/icons/icon.png",
     "userInterfaceStyle": "light",
     "splash": {
-      "image": "./app/assets/splash.png",
+      "image": "./app/assets/img/logo_size.png",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
@@ -21,6 +21,7 @@
       "supportsTablet": true
     },
     "android": {
+      "package":"com.umb.srmt",
       "googleServicesFile": "./google-services.json",
       "permissions": [
         "CAMERA_ROLL",
@@ -33,6 +34,11 @@
       "adaptiveIcon": {
         "foregroundImage": "./app/assets/adaptive-icon.png",
         "backgroundColor": "#FFFFFF"
+      },
+      "config": {
+        "googleMaps": {
+          "apiKey": "AIzaSyC59x4-b9fJOkMLKptMAKrCIkAW1_tph80"
+        }
       }
     },
     "web": {

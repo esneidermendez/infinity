@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { View, ScrollView, StyleSheet } from "react-native";
-import { Button } from "react-native-elements";
+import { Button, Card } from "react-native-elements";
 import { theme } from '../../core/theme';
 import { useNavigation } from "@react-navigation/native";
 import {
@@ -70,14 +70,14 @@ export default function StationStatistics(props) {
     const countNewForTypes = { x: "", count: 0, y: 0 };
     countNewForTypes.x = elementType.label;
     news.map(function (elementNew) {
-      if (elementNew.type.label == elementType.label) {
+      if (elementNew.type.label === elementType.label) {
         countNewForTypes.count = countNewForTypes.count + 1;
         countNewForTypes.y = countNewForTypes.count / totalNews;
       }
       return countNewForTypes;
     });
     if (countNewForTypes.count == 0) {
-      countNewForTypes.x = "";
+      countNewForTypes.x = " ";
       countNewForTypes.y = 0;
     }
     return countNewForTypes;
@@ -115,24 +115,29 @@ export default function StationStatistics(props) {
     <ScrollView source={require('../../assets/background_dot.png')}
     resizeMode="repeat"
     style={styles.background}>
-      <View>
+      <Card title="CARD WITH DIVIDER">
+      
+      <View style={{
+            width: "125%",
+            alignSelf: "center",}}>
         <VictoryPie
+          padAngle={({ datum }) => datum.y}
+          innerRadius={80}
+          labelRadius={100}
           colorScale={generarColores()}
           data={myTypesIncidents}
-          innerRadius={50}
-          labelRadius={100}
-          style={{ labels: { fontSize: 12, fill: "#000",alignmentBaseline:"center" } }}
         />
-        <View>
-          <VictoryChart theme={VictoryTheme.material}
-  domainPadding={25}>
+      </View>  
+      <View>
+          <VictoryChart theme={VictoryTheme.material} domainPadding={25}>
             <VictoryGroup>
               <VictoryBar style={{ data: { fill: "#c43a31" } }}
                   data={myTypesIncidents} />
             </VictoryGroup>
           </VictoryChart>
         </View>
-      </View>
+      
+      </Card>
     </ScrollView>
   );
 }

@@ -48,25 +48,17 @@ function CreateNew(props) {
   }, []);
 
   //funciones
-  const changeNew = (name, value) => {
-    setState({ ...state, [name]: value });
-  };
-
-  const changeType = (value) => {
-    console.log("tipo seleccionadooooooooo", value);
-    setTypeSelect({ ...typeIncident, value });
-    console.log("tipo seleccionadooooooooo", typeSelect);
-  };
 
   const createNew = async (value) => {
     const newRef = doc(db, "News", props.route.params.station.id);
 
     //changeType(value);
 
+    console.log("TIPOS DE INCIDENTES create", value);
+
     await addDoc(collection(newRef, "NewsStation"), {
-      title: "noticia reportada acerca de " + value.label,
+      title: "Noticia sobre: " + value.label,
       type: value,
-      description: "descripcion x",
       dateC: state.dateC,
       gender: user.Gender,
       userId: user.UserID,
@@ -103,11 +95,12 @@ function CreateNew(props) {
       const docRef = doc(db, "MobileSynchronization/TypesIncidents");
       const docSnap = await getDocs(collection(docRef, "types"));
       docSnap.forEach((doc) => {
-        const { value, type } = doc.data();
+        const { value, type, image, description } = doc.data();
         types.push({
           value: value,
           label: type,
-          selection: false,
+          image: image,
+          description: description,
         });
       });
 

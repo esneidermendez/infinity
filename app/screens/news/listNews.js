@@ -6,7 +6,7 @@ import {
   ActivityIndicator,
   FlatList,
 } from "react-native";
-import { Button, ListItem, Avatar, Image } from "react-native-elements";
+import { Button, ListItem, Avatar, Image, Card } from "react-native-elements";
 import {
   db,
   collection,
@@ -52,6 +52,7 @@ export default class ListNews extends React.Component {
           noticiasT.push({ ...doc.data(), id: doc.id });
         }
       });
+
       this.obtenerListadoNoticiasConUsuario(noticiasT);
       return unsubscribe;
     });
@@ -82,6 +83,8 @@ export default class ListNews extends React.Component {
       if (usu1) nU.push({ ...n, ...usu1 });
     });
     this.setState({ newsUser: nU });
+
+    console.log("NOTICIAS", this.state);
   };
 
   render() {
@@ -99,6 +102,7 @@ export default class ListNews extends React.Component {
             borderRadius: 20,
             margin: 15,
             marginTop: 50,
+            alignSelf: "center",
           }}
           onPress={() =>
             this.props.navigation.navigate("CreateNew", {
@@ -107,30 +111,33 @@ export default class ListNews extends React.Component {
           }
         />
 
-        <ScrollView style={{ marginBottom: 200 }}>
+        <ScrollView style={{ marginBottom: 70 }}>
           {this.state.newsUser.length > 0 &&
             this.state.newsUser.map((noticia) => (
-              <>
+              <Card title="CARD WITH DIVIDER">
                 <View
                   style={{
                     flexDirection: "row",
                     height: 100,
-                    padding: 20,
+                    padding: 15,
                   }}
                 >
                   <Avatar
                     rounded
                     size="medium"
-                    style={{ width: 50, height: 50 }}
+                    style={{
+                      width: 50,
+                      height: 50,
+                    }}
                     source={{
-                      uri: "https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcQKMA6QRdBuT1r7O4o23UHiMHsKsdDsg_nG9Q&usqp=CAU",
+                      uri: "https://firebasestorage.googleapis.com/v0/b/srmt-c750e.appspot.com/o/avatar%2FAnonimo.jpg?alt=media&token=64148d88-01c2-4425-96ed-849a1b39b915",
                     }}
                   />
 
                   <View
                     style={{
                       flex: 2,
-                      height: 100,
+                      height: 80,
                     }}
                   >
                     <Text key={noticia.id} style={{ marginLeft: 15 }}>
@@ -145,21 +152,34 @@ export default class ListNews extends React.Component {
                 <View
                   style={{
                     width: "100%",
+                    alignItems: "center",
                   }}
                 >
-                  <Text>{noticia.description}</Text>
+                  <Text style={{ margin: 5, fontSize: 16, fontWeight: "bold" }}>
+                    {noticia.title}
+                  </Text>
+                  <Text>{noticia.type.description}</Text>
 
                   <Image
                     source={{
-                      uri: "https://i.pinimg.com/originals/22/7a/9e/227a9e464dfbf82765b56b0599a7614b.jpg",
+                      uri: noticia.type.image,
                     }}
-                    style={{ width: 300, height: 200 }}
+                    style={{ width: 300, height: 200, margin: 10 }}
                     PlaceholderContent={<ActivityIndicator />}
                   />
 
-                  <Text>{noticia.type.label}</Text>
+                  <Text
+                    style={{
+                      margin: 5,
+                      fontSize: 16,
+                      fontWeight: "bold",
+                      fontStyle: "italic",
+                    }}
+                  >
+                    {noticia.type.label}
+                  </Text>
                 </View>
-              </>
+              </Card>
             ))}
         </ScrollView>
       </View>

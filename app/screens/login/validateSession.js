@@ -25,8 +25,11 @@ export default function ValidateSession() {
         title: "¡¡¡TEN PRESENTE!!!",
         body:
           "Si vas a usar el transporte publico recuerda" +
+          "\n" +
           "1. Guarda tus pertenencias de valor 📱👝💍💻" +
+          "\n" +
           "2. Procura tener siempre contacto con tus pertenecias" +
+          "\n" +
           "3. No saques el celular si el bus tiene las puertas abiertas",
         seconds: 2,
         program: "validateSession",

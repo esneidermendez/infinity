@@ -21,6 +21,8 @@ import {
   updatePassword,
   updateEmail,
   reauthenticateWithCredential,
+  FacebookAuthProvider,
+  signInWithPopup,
 } from "firebase/auth";
 import Constants from "expo-constants";
 
@@ -76,4 +78,6 @@ export {
   query,
   where,
   onSnapshot,
+  FacebookAuthProvider,
+  signInWithPopup,
 };

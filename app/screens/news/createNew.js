@@ -1,5 +1,12 @@
 import React, { useState, useEffect, useRef, cloneElement } from "react";
-import { View, StyleSheet, Image, Alert } from "react-native";
+import {
+  View,
+  StyleSheet,
+  Image,
+  Alert,
+  FlatList,
+  ImageBackground,
+} from "react-native";
 import { Button, Input, Text, Icon } from "react-native-elements";
 import RadioForm from "react-native-simple-radio-button";
 import {
@@ -9,16 +16,20 @@ import {
   dbSetDoc,
   addDoc,
   doc,
+  query,
+  where,
   firebaseauth,
 } from "../../utils/dataBase/firabase";
 import { ScrollView } from "react-native-gesture-handler";
 import Moment from "moment";
 import * as permissions from "expo-permissions";
 import * as ImagePicker from "expo-image-picker";
+import Background from "../../element/Background";
 
 function CreateNew(props) {
   //atributos
   const [user, setUser] = useState(null);
+  const [typeSelect, setTypeSelect] = useState(null);
   //estados
   const [state, setState] = useState({
     title: "",
@@ -29,10 +40,7 @@ function CreateNew(props) {
   });
 
   const [typeIncident, settypeInciden] = useState([]);
-
   const toastRef = useRef();
-
-  //useeffect
 
   useEffect(() => {
     consultarTipologias();
@@ -40,50 +48,44 @@ function CreateNew(props) {
   }, []);
 
   //funciones
-  const changeNew = (name, value) => {
-    setState({ ...state, [name]: value });
-  };
 
-  const createNew = async () => {
-    if (state.title === "" || state.type === "" || state.description === "") {
-      alert("Validacion Campos", "Por favor valide los campos");
-    } else {
-      const newRef = doc(db, "News", firebaseauth.currentUser.uid);
-      console.log(newRef);
-      await addDoc(collection(newRef, "NewsStation"), {
-        title: state.title,
-        type: state.type,
-        description: state.description,
-        dateC: state.dateC,
-        gender: user.Gender,
-        userId: user.UserID,
+  const createNew = async (value) => {
+    const newRef = doc(db, "News", props.route.params.station.id);
+
+    //changeType(value);
+
+    console.log("TIPOS DE INCIDENTES create", value);
+
+    await addDoc(collection(newRef, "NewsStation"), {
+      title: "Noticia sobre: " + value.label,
+      type: value,
+      dateC: state.dateC,
+      gender: user.Gender,
+      userId: user.UserID,
+    })
+      .then((data) => {
+        console.log("noticia creada");
+        props.navigation.navigate("ListNews");
       })
-        .then((data) => {
-          alert("noticia cargada");
-          props.navigation.navigate("ListNews");
-        })
-        .catch(() => {
-          alert("la noticia no se pudo cargar");
-        });
-    }
+      .catch(() => {
+        alert("la noticia no se pudo cargar");
+      });
   };
 
   const consultaDatosUsuario = async () => {
-    let userf = null;
-    const documentSnapshot = await getDocs(
-      collection(db, "User", firebaseauth.currentUser.uid)
-    );
-    if (documentSnapshot) {
-      console.log("User exists: ", documentSnapshot.exists);
+    (async () => {
+      var userf = null;
+      const q = query(
+        collection(db, "User"),
+        where("UserID", "==", firebaseauth.currentUser.uid)
+      );
 
-      if (documentSnapshot.exists) {
-        userf = documentSnapshot.data();
-        console.log("User data: ", userf);
-      }
-
+      const querySnapshot = await getDocs(q);
+      querySnapshot.forEach((doc) => {
+        userf = doc.data();
+      });
       setUser(userf);
-      console.log("usuario doc", user);
-    }
+    })();
   };
 
   const consultarTipologias = () => {
@@ -93,10 +95,12 @@ function CreateNew(props) {
       const docRef = doc(db, "MobileSynchronization/TypesIncidents");
       const docSnap = await getDocs(collection(docRef, "types"));
       docSnap.forEach((doc) => {
-        const { value, type } = doc.data();
+        const { value, type, image, description } = doc.data();
         types.push({
           value: value,
           label: type,
+          image: image,
+          description: description,
         });
       });
 
@@ -104,65 +108,26 @@ function CreateNew(props) {
     })();
   };
 
-  const openGalery = async () => {
-    const resultPermissions = await permissions.askAsync(
-      permissions.CAMERA_ROLL
-    );
-    const resultPermissionsCamera =
-      resultPermissions.permissions.cameraRoll.status;
-
-    if (resultPermissionsCamera === "denied") {
-      toasRef.current.show("Es necesario aceptar los permisos de la galeria");
-    } else {
-      const result = await ImagePicker.launchImageLibraryAsync({
-        allowsEditing: true,
-        aspect: [4, 3],
-      });
-
-      if (result.cancelled) {
-        toasRef.current.show("Se ha cancelado la seleccion de imagen");
-      } else {
-        uploadImage(result.uri);
-      }
-    }
-  };
-
-  const uploadImage = (uri) => {
-    (async () => {
-      const response = await fetch(uri);
-      const blob = await response.blob();
-
-      const refer = firebase.firebaseApp
-        .storage()
-        .ref()
-        .child(`news/${props.route.params.station.id}`);
-      refer
-        .put(blob)
-        .then(() => {
-          updatePhotoUrl();
-        })
-        .catch(() => {
-          toastRef.current.show("Error al subirla imagen");
-        });
-    })();
-  };
-
-  const updatePhotoUrl = () => {
-    firebase.firebaseApp
-      .storage()
-      .ref(`news/${props.route.params.station.id}`)
-      .getDownloadURL()
-      .then(async (response) => {
-        const update = {
-          photoURL: response,
-        };
-        await firebase.firebaseauth.currentUser.updateProfile(update);
-        toastRef.current.show("Avatar actualizado");
-      })
-      .catch(() => {
-        toastRef.current.show("Error al Actualizar el avatar");
-      });
-  };
+  const renderItem = ({ item }) => (
+    <Button
+      title={item.label}
+      type="outline"
+      titleStyle={{ color: "#000000" }}
+      buttonStyle={{
+        borderWidth: 1,
+        borderColor: "#000000",
+        backgroundColor: "#DDDDDD",
+        width: 290,
+        height: 60,
+        borderRadius: 30,
+        margin: 15,
+        marginTop: 5,
+      }}
+      onPress={() => {
+        createNew(item);
+      }}
+    />
+  );
 
   //vista
   return (
@@ -180,70 +145,14 @@ function CreateNew(props) {
 
       <View>
         <View style={styles.inputText}>
-          <Input
-            placeholder="Titulo de la noticia"
-            leftIcon={{
-              type: "font-awesome",
-              name: "newspaper-o",
-              color: "#E02A35",
-              marginRight: 15,
-              style: { marginRight: 15, paddingRight: 15 },
-            }}
-            onChangeText={(value) => changeNew("title", value)}
-          />
+          <Text style={styles.textStyle}>Seleccione un incidente:</Text>
         </View>
 
-        <ScrollView style={styles.scrollTypes}>
-          <View style={styles.FormRadContainer}>
-            <RadioForm
-              initial={-1}
-              radio_props={typeIncident}
-              formHorizontal={false}
-              labelHorizontal={true}
-              buttonColor={"#E02A35"}
-              onPress={(value) => changeNew("type", typeIncident[value])}
-            />
-          </View>
-        </ScrollView>
-
-        <View style={styles.inputCamara}>
-          <Text>Toma una evidencia del robo</Text>
-          <Icon
-            reverse
-            name="camera-wireless"
-            type="material-community"
-            color="#E02A35"
-            onPress={() => openGalery()}
-          />
-        </View>
-
-        <View style={styles.inputContainer}>
-          <Input
-            placeholder="Descripcion"
-            leftIcon={{
-              type: "font-awesome",
-              name: "exclamation",
-              color: "#E02A35",
-              marginRight: 25,
-              style: { marginRight: 15, paddingRight: 15 },
-            }}
-            onChangeText={(value) => changeNew("description", value)}
-          />
-        </View>
-
-        <View style={styles.buttonContainer}>
-          <Button
-            title="Crear Noticia "
-            type="outline"
-            titleStyle={{ color: "#E02A35" }}
-            buttonStyle={{
-              borderWidth: 3,
-              borderColor: "#000000",
-              backgroundColor: "#DDDDDD",
-              width: 200,
-              borderRadius: 20,
-            }}
-            onPress={() => createNew()}
+        <View style={styles.inputFalgList}>
+          <FlatList
+            data={typeIncident}
+            renderItem={renderItem}
+            keyExtractor={(item) => item.value}
           />
         </View>
       </View>
@@ -256,7 +165,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     flexDirection: "column",
-    padding: 50,
+    padding: 30,
   },
   containerText: {
     textAlign: "center",
@@ -273,6 +182,16 @@ const styles = StyleSheet.create({
     marginRight: 10,
   },
   inputText: {
+    alignItems: "center",
+    margin: 15,
+  },
+  textStyle: {
+    marginLeft: 10,
+    marginRight: 10,
+    fontSize: 22,
+    fontWeight: "bold",
+  },
+  inputFalgList: {
     alignItems: "center",
     marginLeft: 10,
     marginRight: 10,
@@ -308,8 +227,8 @@ const styles = StyleSheet.create({
     margin: 10,
   },
   tinyLogo: {
-    width: 120,
-    height: 120,
+    width: 220,
+    height: 220,
   },
   FormRadContainer: {
     alignItems: "center",

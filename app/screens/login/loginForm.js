@@ -86,10 +86,8 @@ function defaultFormValue() {
 
 const styles = StyleSheet.create({
   FormContainer: {
-    flex: 1,
     alignItems: "center",
     justifyContent: "center",
-    marginTop: "23%",
   },
   InputFrom: {
     width: "100%",
@@ -100,7 +98,7 @@ const styles = StyleSheet.create({
   },
   btnLogin: {
     backgroundColor: "#E02A35",
-    width: 150,
+    width: 250,
     borderRadius: 50,
   },
   iconRight: {

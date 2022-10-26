@@ -18,6 +18,8 @@ import {
   updatePassword,
   updateEmail,
   reauthenticateWithCredential,
+  FacebookAuthProvider,
+  signInWithPopup,
 } from "firebase/auth";
 import Constants from "expo-constants";
 
@@ -70,4 +72,6 @@ export {
   UpdateEmail,
   EmailAuthProvider,
   addDoc,
+  FacebookAuthProvider,
+  signInWithPopup,
 };

@@ -4,13 +4,23 @@
     "slug": "srmt2022",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./app/assets/icon.png",
+    "icon": "./app/assets/icons/icon.png",
     "userInterfaceStyle": "light",
+    "plugins": [
+      [
+        "expo-notifications",
+        {
+          "icon": "./app/assets/icons/icon.png",
+          "color": "#ffffff"
+        }
+      ]
+    ],
     "splash": {
-      "image": "./app/assets/splash.png",
+      "image": "./app/assets/img/logo_size.png",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
+
     "updates": {
       "fallbackToCacheTimeout": 0
     },

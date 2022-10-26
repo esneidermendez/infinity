@@ -7,7 +7,7 @@ import {
   setDoc,
   addDoc,
 } from "firebase/firestore";
-import { getStorage, ref, uploadBytes } from "firebase/storage";
+import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import {
   getAuth,
   EmailAuthProvider,
@@ -16,6 +16,7 @@ import {
   createUserWithEmailAndPassword,
   updateProfile,
   updatePassword,
+  updateEmail,
   reauthenticateWithCredential,
 } from "firebase/auth";
 import Constants from "expo-constants";
@@ -42,8 +43,10 @@ const createUser = createUserWithEmailAndPassword;
 const reauthenticated = reauthenticateWithCredential;
 const updateProfil = updateProfile;
 const updatePass = updatePassword;
-const storage = getStorage();
+const UpdateEmail = updateEmail;
+const storage = getStorage(firebaseApp);
 const UploadBytes = uploadBytes;
+const DownloadURL = getDownloadURL;
 const getRef = ref;
 
 export {
@@ -56,6 +59,7 @@ export {
   firebaseauth,
   storage,
   UploadBytes,
+  DownloadURL,
   getRef,
   EmailAndPassword,
   authStateChanged,
@@ -63,6 +67,7 @@ export {
   reauthenticated,
   updateProfil,
   updatePass,
+  UpdateEmail,
   EmailAuthProvider,
   addDoc,
 };

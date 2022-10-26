@@ -3,11 +3,15 @@ import { StyleSheet, View, Text } from "react-native";
 import { Avatar } from "react-native-elements";
 import {
   storage,
-  getDocs,
-  collection,
+  getRef,
+  UploadBytes,
+  DownloadURL,
+  firebaseauth,
+  updateProfil,
   db,
+  doc,
+  dbSetDoc,
 } from "../../utils/dataBase/firabase";
-import * as permissions from "expo-permissions";
 import * as ImagePicker from "expo-image-picker";
 
 export default function UserProfile(props) {
@@ -17,64 +21,74 @@ export default function UserProfile(props) {
     setLoadingText,
   } = props;
 
-  const updatePhotoUrl = () => {
-    firebase.firebaseApp
-      .storage()
-      .ref(`avatar/${uid}`)
-      .getDownloadURL()
-      .then(async (response) => {
-        const update = {
-          photoURL: response,
-        };
-        await firebase.firebaseauth.currentUser.updateProfile(update);
-        setLoading(false);
-        toasRef.current.show("Avatar actualizado");
+  const updatePhotoUrl = (url) => {
+    const update = {
+      photoURL: url,
+    };
+    updateProfil(firebaseauth.currentUser, update)
+      .then(() => {
+        const dbRef = doc(db, "User", firebaseauth.currentUser.uid);
+        dbSetDoc(
+          dbRef,
+          {
+            photoURL: url,
+          },
+          { merge: true }
+        )
+          .then((data) => {
+            setLoading(false);
+          })
+          .catch(() => {});
       })
-      .catch(() => {
-        toasRef.current.show("Error al Actualizar el avatar");
-      });
+      .catch(() => {});
   };
 
   const uploadImage = (uri) => {
     (async () => {
       setLoadingText("Actualizando Avatar");
       setLoading(true);
-      const response = await fetch(uri);
-      const blob = await response.blob();
-
-      const refer = firebase.firebaseApp.storage().ref().child(`avatar/${uid}`);
-      refer
-        .put(blob)
-        .then(() => {
-          updatePhotoUrl();
-        })
-        .catch(() => {
-          toasRef.current.show("Error al subir el avatar");
-        });
+      const storageRef = getRef(storage, `avatar/${uid}`);
+      await UploadBytes(storageRef, uri).then(async (snap) => {
+        const url = await DownloadURL(storageRef);
+        updatePhotoUrl(url);
+      });
     })();
   };
 
+  const xhrRequest = (uri) => {
+    return new Promise((resolver, reject) => {
+      let xhr = new XMLHttpRequest();
+      xhr.onerror = reject;
+      xhr.onreadystatechange = () => {
+        if (xhr.readyState === 4) {
+          resolver(xhr.response);
+        }
+      };
+
+      xhr.open("GET", uri);
+      xhr.responseType = "blob";
+      xhr.send();
+    });
+  };
   const changeAvatar = () => {
     (async () => {
-      const resultPermissions = await permissions.askAsync(
-        permissions.CAMERA_ROLL
-      );
-      const resultPermissionsCamera =
-        resultPermissions.permissions.cameraRoll.status;
-
-      if (resultPermissionsCamera === "denied") {
-        toasRef.current.show("Es necesario aceptar los permisos de la galeria");
+      const result = await ImagePicker.launchImageLibraryAsync({
+        mediaTypes: ImagePicker.MediaTypeOptions.Images,
+        allowsEditing: true,
+        aspect: [40, 40],
+        quality: 1,
+      });
+      if (result.cancelled) {
+        toasRef.current.show("Se ha cancelado la seleccion de avatar");
       } else {
-        const result = await ImagePicker.launchImageLibraryAsync({
-          allowsEditing: true,
-          aspect: [4, 3],
-        });
-
-        if (result.cancelled) {
-          toasRef.current.show("Se ha cancelado la seleccion de avatar");
-        } else {
-          uploadImage(result.uri);
-        }
+        xhrRequest(result.uri)
+          .then((resolver) => {
+            uploadImage(resolver);
+          })
+          .catch((error) => {
+            console.log(error);
+          });
+        //      uploadImage(fileName);
       }
     })();
   };

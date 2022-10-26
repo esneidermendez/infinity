@@ -1,7 +1,13 @@
 import React, { useState } from "react";
 import { StyleSheet, View, Text } from "react-native";
 import { Input, Button } from "react-native-elements";
-import firebase from "../../../utils/dataBase/firebase";
+import {
+  firebaseauth,
+  UpdateEmail,
+  db,
+  doc,
+  dbSetDoc,
+} from "../../../utils/dataBase/firabase.js";
 import { reauthenticate } from "../../../utils/dataBase/api";
 import { validateEmail } from "../../../utils/Validations";
 
@@ -31,16 +37,17 @@ function ChangeEmail(props) {
       setLoadingText("Actualizando Correo Electronico");
       reauthenticate(newEmail.password)
         .then((response) => {
-          firebase.firebaseauth.currentUser
-            .updateEmail(newEmail.email)
+          UpdateEmail(firebaseauth.currentUser, newEmail.email)
             .then(() => {
-              firebase.dbFirestore
-                .collection("User")
-                .doc(uid)
-                .update({
+              const dbRef = doc(db, "User", firebaseauth.currentUser.uid);
+              dbSetDoc(
+                dbRef,
+                {
                   Email: newEmail.email,
-                })
-                .then(() => {
+                },
+                { merge: true }
+              )
+                .then((data) => {
                   setLoading(false);
                   setshowModal(false);
                 })
@@ -49,7 +56,7 @@ function ChangeEmail(props) {
                 });
             })
             .catch(() => {
-              setError({ email: "Error al actualizar el correo electronico" });
+              alert("No se pudo actualizar la informacion");
               setLoading(false);
             });
         })

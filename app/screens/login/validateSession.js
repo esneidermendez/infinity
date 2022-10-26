@@ -31,6 +31,7 @@ export default function ValidateSession() {
         seconds: 2,
         program: "validateSession",
       });
+      setStatus();
     }
 
     return <NavigationApp />;

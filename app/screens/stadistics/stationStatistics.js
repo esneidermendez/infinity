@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { View, ScrollView, StyleSheet } from "react-native";
-import { Button, Card } from "react-native-elements";
+import { Button, Card, Text } from "react-native-elements";
 import { theme } from '../../core/theme';
 import { useNavigation } from "@react-navigation/native";
 import {
@@ -116,22 +116,30 @@ export default function StationStatistics(props) {
     resizeMode="repeat"
     style={styles.background}>
       <Card title="CARD WITH DIVIDER">
-      
+      <View style={styles.containerText}>
+        <Text h4>Reporte por tipo de incidentes</Text>
+      </View>
       <View style={{
             width: "125%",
             alignSelf: "center",}}>
         <VictoryPie
           padAngle={({ datum }) => datum.y}
+          animate={{
+            duration: 2000
+          }}
           innerRadius={80}
           labelRadius={100}
           colorScale={generarColores()}
           data={myTypesIncidents}
         />
       </View>  
+      <View style={styles.containerText}>
+        <Text h4>Cantidad de reportes por tipo de incidentes</Text>
+      </View>
       <View>
           <VictoryChart theme={VictoryTheme.material} domainPadding={25}>
             <VictoryGroup>
-              <VictoryBar style={{ data: { fill: "#c43a31" } }}
+              <VictoryBar style={{ data: { fill:"#c43a31" } }}
                   data={myTypesIncidents} />
             </VictoryGroup>
           </VictoryChart>

@@ -65,6 +65,7 @@ export default function Maps() {
     <View style={styles.ViewBody}>
       {ubication ? (
         <MapView
+          apiKey={"AIzaSyC59x4-b9fJOkMLKptMAKrCIkAW1_tph80"}
           style={styles.mapStyle}
           initialRegion={ubication}
           showsUserLocation={true}

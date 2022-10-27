@@ -27,20 +27,11 @@ const styles = StyleSheet.create({
     backgroundColor: theme.colors.surface,
   },
   container: {
-<<<<<<< HEAD
-    height: '80%',
-    marginTop: '10%',
-    width: '100%',
-    maxWidth: '100%',
-    alignSelf: 'center',
-    alignItems: 'center',
-=======
     height: "80%",
     marginTop: "10%",
     width: "100%",
     maxWidth: "100%",
     alignSelf: "center",
     alignItems: "center",
->>>>>>> 0bd8dd2534b7be6a9c293767ae747ed1a6a9661e
   },
 });

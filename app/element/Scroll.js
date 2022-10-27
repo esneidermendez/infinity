@@ -14,11 +14,7 @@ export default function Scroll() {
       pagingEnabled
       horizontal
       showsHorizontalScrollIndicator={false}
-<<<<<<< HEAD
-      style={{ width, height: '80%' }}
-=======
       style={{ width, height: "80%" }}
->>>>>>> 0bd8dd2534b7be6a9c293767ae747ed1a6a9661e
     >
       {images.map((image, index) => (
         <Image
@@ -26,18 +22,11 @@ export default function Scroll() {
           source={{ uri: image }}
           style={{
             width,
-<<<<<<< HEAD
-            height: '80%',
-            resizeMode: 'cover',
-            alignItems: 'center',
-            marginTop: '5%',
-=======
             height: "80%",
             resizeMode: "cover",
             alignItems: "center",
             marginBottom: "5%",
             marginTop: "5%",
->>>>>>> 0bd8dd2534b7be6a9c293767ae747ed1a6a9661e
           }}
         />
       ))}

@@ -22,9 +22,6 @@ import {
 } from "../../utils/dataBase/firabase";
 import { ScrollView } from "react-native-gesture-handler";
 import Moment from "moment";
-import * as permissions from "expo-permissions";
-import * as ImagePicker from "expo-image-picker";
-import Background from "../../element/Background";
 
 function CreateNew(props) {
   //atributos
@@ -51,11 +48,6 @@ function CreateNew(props) {
 
   const createNew = async (value) => {
     const newRef = doc(db, "News", props.route.params.station.id);
-
-    //changeType(value);
-
-    console.log("TIPOS DE INCIDENTES create", value);
-
     await addDoc(collection(newRef, "NewsStation"), {
       title: "Noticia sobre: " + value.label,
       type: value,

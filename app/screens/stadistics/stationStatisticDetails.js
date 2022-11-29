@@ -13,7 +13,7 @@ import {
 } from "victory-native";
 import { db, collection, getDocs, doc } from "../../utils/dataBase/firabase";
 
-export default function StationStatistics(props) {
+export default function StationStatisticDetails(props) {
   const navigation = useNavigation();
 
   const [news, setNews] = useState([]);
@@ -82,11 +82,11 @@ export default function StationStatistics(props) {
     }
     return countNewForTypes;
   });
-  //console.log("My objeto para gráficas");
-  //console.log(myTypesIncidents);
+  console.log("My objeto para gráficas");
+  console.log(myTypesIncidents);
 
   const generarColores = () => {
-    var colores = ["#F1763D", "#FFB326", "#e65100", "#bf360c", "#ffa726", "#E29F5B", "#E2805B", "#E2C95B", "#F19946"];
+    var colores = ["#cdcdcd", "#ffa726", "#e65100", "#bf360c", "#ffa726"];
 
     const miles = colores.filter(function (element) {
       return element;
@@ -144,7 +144,7 @@ export default function StationStatistics(props) {
             alignSelf: "center",
           }}
           onPress={() =>
-            this.props.navigation.navigate("StationStatisticDetails", {
+            this.props.navigation.navigate("CreateNew", {
               station: this.props.route.params.station,
             })
           }

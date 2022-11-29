@@ -2,6 +2,7 @@ import React from "react";
 import { createStackNavigator } from "@react-navigation/stack";
 import ListStations from "../../../stadistics/listStations";
 import StationStatistics from "../../../stadistics/stationStatistics";
+import StationStatisticDetails from "../../../stadistics/stationStatisticDetails";
 
 const Stack = createStackNavigator();
 
@@ -21,6 +22,13 @@ export default function StationStatisticsStack() {
         component={StationStatistics}
         options={{
           title: "Estadisticas",
+        }}
+      />
+      <Stack.Screen
+        name="StationStatisticDetails"
+        component={StationStatisticDetails}
+        options={{
+          title: "Estadisticas detalles",
         }}
       />
     </Stack.Navigator>

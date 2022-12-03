@@ -11,16 +11,20 @@ import {
   firebaseauth,
   deleteDoc,
 } from "../../utils/dataBase/firabase";
+import Loading from "../../core/Loading";
+
 export default class ListNews extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      loading: true,
       usuarios: [],
       newsUser: [],
     };
   }
 
   async componentDidMount() {
+    this.notificacionPushRiskStation(this.props.route.params.station);
     await this.consultaUsuarios();
     await this.consultaNoticias();
   }
@@ -54,7 +58,8 @@ export default class ListNews extends React.Component {
     let usrs = [];
     const querySnapshot = await getDocs(collection(db, "User"));
     querySnapshot.forEach((doc) => {
-      const { Gender, Name, Ndocument, Tdocument, photoURL } = doc.data();
+      const { Gender, Name, Ndocument, Tdocument, photoURL, displayName } =
+        doc.data();
       usrs.push({
         idUser: doc.id,
         Gender,
@@ -62,6 +67,7 @@ export default class ListNews extends React.Component {
         Ndocument,
         Tdocument,
         photoURL,
+        displayName,
       });
     });
     this.setState({ usuarios: usrs });
@@ -69,6 +75,8 @@ export default class ListNews extends React.Component {
 
   obtenerListadoNoticiasConUsuario = (noticias) => {
     let nU = [];
+    this.setState({ newsUser: nU });
+
     noticias.forEach((n) => {
       const usu1 = this.state.usuarios.find(
         (u) => u !== null && n.userId == u.idUser
@@ -76,8 +84,7 @@ export default class ListNews extends React.Component {
       if (usu1) nU.push({ ...n, ...usu1 });
     });
     this.setState({ newsUser: nU });
-
-    //  console.log("NOTICIAS", this.state);
+    this.setState({ loading: false });
   };
 
   crearAlertaEliminar = (idNoticia) =>
@@ -110,9 +117,74 @@ export default class ListNews extends React.Component {
     await this.consultaNoticias();
   };
 
+  notificacionPushRiskStation = (station) => {
+    switch (station.risk) {
+      case 1:
+        this.notificacionPush(
+          "¡TEN CUIDADO ESTACION CON RIESGO BAJO!",
+          "1.Evite dormirse." +
+            "\n" +
+            "2.Evite mencionar datos personales y de trabajo." +
+            "\n" +
+            "3.Guarda tus pertenencias de valor 📱👝💍💻." +
+            "\n"
+        );
+        break;
+
+      case 2:
+        this.notificacionPush(
+          "¡TEN CUIDADO ESTACION CON RIESGO MEDIO!",
+          "1.Evite hacerse en zonas donde haya muchas personas." +
+            "\n" +
+            "2.No entable conversación con desconocidos." +
+            "\n" +
+            "3.Evite dormirse." +
+            "\n" +
+            "4.Guarda tus pertenencias de valor 📱👝💍💻."
+        );
+        break;
+
+      case 3:
+        this.notificacionPush(
+          "¡TEN CUIDADO ESTACION CON RIESGO ALTO!",
+          "1.Evite hacerse en zonas donde haya muchas personas." +
+            "\n" +
+            "2.No entable conversación con desconocidos." +
+            "\n" +
+            "2.Evite dormirse." +
+            "\n" +
+            "4.Guarda tus pertenencias de valor 📱👝💍💻." +
+            "5.Evite mencionar datos personales y de trabajo."
+        );
+        break;
+      default:
+        this.notificacionPush(
+          "¡TEN CUIDADO EN LA ESTACION!",
+          "1.Evite hacerse en zonas donde haya muchas personas." +
+            "\n" +
+            "2.No entable conversación con desconocidos." +
+            "\n" +
+            "2.Evite dormirse." +
+            "\n" +
+            "4.Guarda tus pertenencias de valor 📱👝💍💻." +
+            "5.Evite mencionar datos personales y de trabajo."
+        );
+    }
+  };
+
+  notificacionPush = (titleNotification, mensagge) => {
+    this.props.navigation.navigate("Notifications", {
+      title: titleNotification,
+      body: mensagge,
+      seconds: 2,
+    });
+  };
+
   render() {
     return (
       <View>
+        <Loading isVisible={this.state.loading} text={"Cargando"} />
+
         <Button
           title="Registra una nueva noticia"
           type="outline"
@@ -122,9 +194,9 @@ export default class ListNews extends React.Component {
             borderColor: "#000000",
             borderRadius: 20,
             backgroundColor: "#DDDDDD",
-            width: 300,
-            margin: 15,
-            marginTop: 50,
+            width: "80%",
+            margin: 5,
+            marginTop: "15%",
             alignSelf: "center",
           }}
           onPress={() =>
@@ -152,9 +224,11 @@ export default class ListNews extends React.Component {
                       width: 50,
                       height: 50,
                     }}
-                    source={{
-                      uri: noticia.photoURL,
-                    }}
+                    source={
+                      noticia.photoURL
+                        ? { uri: noticia.photoURL }
+                        : require("../../assets/icons/Anonimo.jpg")
+                    }
                   />
 
                   <View

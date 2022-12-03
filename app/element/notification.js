@@ -46,7 +46,7 @@ export default function Notification(props) {
     } catch (error) {}
   }, []);
   useEffect(() => {
-    navigation.navigate(props.route.params.program);
+    props.navigation.goBack();
   }, []);
 
   return <View></View>;

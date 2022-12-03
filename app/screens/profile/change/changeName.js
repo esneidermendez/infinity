@@ -39,7 +39,7 @@ export default function ChangeName(props) {
           dbSetDoc(
             dbRef,
             {
-              displayName: newUsuName.name,
+              Name: newUsuName.name,
             },
             { merge: true }
           )

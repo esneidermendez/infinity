@@ -32,7 +32,6 @@ export default function ValidateSession() {
           "\n" +
           "3. No saques el celular si el bus tiene las puertas abiertas",
         seconds: 2,
-        program: "validateSession",
       });
       setStatus();
     }

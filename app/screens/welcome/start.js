@@ -11,10 +11,14 @@ export default function StartScreen() {
       style={styles.Imagen}
     >
       <View>
-        <Button mode="contained" onPress={() => navigation.navigate("Login")}>
+        <Button
+          style={styles.btnStyle1}
+          onPress={() => navigation.navigate("Login")}
+        >
           Iniciar Sesión
         </Button>
-        <Button style={styles.btnStyle2}
+        <Button
+          style={styles.btnStyle2}
           mode="outlined"
           onPress={() => navigation.navigate("RegisterScreen")}
         >
@@ -27,42 +31,28 @@ export default function StartScreen() {
 const styles = StyleSheet.create({
   Imagen: {
     flex: 2,
-    alignItems: "center",
     justifyContent: "center",
-  },
-  ViewContainer: {
-    flex: 1,
-    marginTop: "90%",
-    marginLeft: "5%",
-    marginRight: "5%",
-    alignItems: "center",
-  },
-  ViewBtn: {
-    flex: 1,
-    alignItems: "center",
-  },
-  title: {
-    fontWeight: "bold",
-    fontSize: 25,
-    marginBottom: 10,
-    textAlign: "center",
   },
   text: {
     color: "#212121",
   },
-  descripcion: {
-    textAlign: "center",
-    marginBottom: 22,
-    marginBottom: 30,
-  },
   btnStyle1: {
     backgroundColor: "#E02A35",
     borderRadius: 50,
+    width: "60%",
+    marginLeft: "20%",
+    marginRight: "20%",
+    marginTop: "20%",
+    marginBottom: "5%",
   },
   btnStyle2: {
     backgroundColor: "#cdcdcd",
-    font_color:'black',
+    font_color: "black",
     borderRadius: 50,
+    marginLeft: "20%",
+    marginRight: "20%",
+    marginEnd: "20%",
+    width: "60%",
   },
   Divider: {
     backgroundColor: "#00a680",

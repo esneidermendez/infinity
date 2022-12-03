@@ -1,7 +1,6 @@
 import * as React from "react";
 import { StyleSheet, View } from "react-native";
 import * as Location from "expo-location";
-import * as permissions from "expo-permissions";
 import MapView, { Marker } from "react-native-maps";
 import {
   db,
@@ -11,8 +10,7 @@ import {
   query,
   onSnapshot,
 } from "../../utils/dataBase/firabase";
-import ThemedDialog from "react-native-elements/dist/dialog/Dialog";
-// import { useNavigation } from "@react-navigation/native";
+
 export default class Maps extends React.Component {
   totalDatos = 0;
   constructor(props) {
@@ -110,7 +108,7 @@ export default class Maps extends React.Component {
     this.setState({ station: resultStation });
   };
 
-  makerOnClick = (latitud, longitud) => {
+  makerOnClick = (latitud) => {
     for (let index in this.state.station) {
       if (Object.hasOwnProperty.call(this.state.station, index)) {
         if (this.state.station[index].latitu === latitud) {

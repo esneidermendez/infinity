@@ -22,11 +22,13 @@ import {
 } from "../../utils/dataBase/firabase";
 import { ScrollView } from "react-native-gesture-handler";
 import Moment from "moment";
+import Loading from "../../core/Loading";
 
 function CreateNew(props) {
   //atributos
   const [user, setUser] = useState(null);
   const [typeSelect, setTypeSelect] = useState(null);
+  const [loading, setLoading] = useState(true);
   //estados
   const [state, setState] = useState({
     title: "",
@@ -37,7 +39,6 @@ function CreateNew(props) {
   });
 
   const [typeIncident, settypeInciden] = useState([]);
-  const toastRef = useRef();
 
   useEffect(() => {
     consultarTipologias();
@@ -47,6 +48,7 @@ function CreateNew(props) {
   //funciones
 
   const createNew = async (value) => {
+    setLoading(true);
     const newRef = doc(db, "News", props.route.params.station.id);
     await addDoc(collection(newRef, "NewsStation"), {
       title: "Noticia sobre: " + value.label,
@@ -57,7 +59,8 @@ function CreateNew(props) {
     })
       .then((data) => {
         console.log("noticia creada");
-        props.navigation.navigate("ListNews");
+        setLoading(false);
+        props.navigation.goBack();
       })
       .catch(() => {
         alert("la noticia no se pudo cargar");
@@ -97,35 +100,40 @@ function CreateNew(props) {
       });
 
       settypeInciden(types);
+      setLoading(false);
     })();
   };
 
   const renderItem = ({ item }) => (
-    <Button
-      title={item.label}
-      type="outline"
-      titleStyle={{ color: "#000000" }}
-      buttonStyle={{
-        borderWidth: 1,
-        borderColor: "#000000",
-        backgroundColor: "#DDDDDD",
-        width: 290,
-        height: 60,
-        borderRadius: 30,
-        margin: 15,
-        marginTop: 5,
-      }}
-      onPress={() => {
-        createNew(item);
-      }}
-    />
+    <View style={[{ width: "90%", margin: 3 }]}>
+      <Button
+        title={item.label}
+        type="outline"
+        titleStyle={{ color: "#000000" }}
+        buttonStyle={{
+          borderWidth: 1,
+          borderColor: "#000000",
+          backgroundColor: "#DDDDDD",
+          width: "97%",
+          height: 50,
+          borderRadius: 30,
+          margin: 3,
+          marginTop: 5,
+        }}
+        onPress={() => {
+          createNew(item);
+        }}
+      />
+    </View>
   );
 
   //vista
   return (
     <ScrollView style={styles.container}>
+      <Loading isVisible={loading} text={"Cargando"} />
+
       <View style={styles.containerText}>
-        <Text h4>Reporta una noticia</Text>
+        <Text h4>REPORTAR UNA NOTICIA</Text>
       </View>
 
       <View style={styles.imageContainer}>
@@ -157,11 +165,13 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     flexDirection: "column",
-    padding: 30,
+    margin: "5%",
   },
   containerText: {
-    textAlign: "center",
+    alignContent: "center",
     flexDirection: "column-reverse",
+    marginTop: "10%",
+    margin: "4%",
   },
   image: {
     flex: 1,
@@ -175,12 +185,12 @@ const styles = StyleSheet.create({
   },
   inputText: {
     alignItems: "center",
-    margin: 15,
+    marginBottom: 10,
   },
   textStyle: {
     marginLeft: 10,
     marginRight: 10,
-    fontSize: 22,
+    fontSize: 20,
     fontWeight: "bold",
   },
   inputFalgList: {
@@ -188,51 +198,15 @@ const styles = StyleSheet.create({
     marginLeft: 10,
     marginRight: 10,
   },
-  inputCamara: {
-    flexDirection: "row",
-    alignItems: "center",
-    marginTop: 10,
-    marginLeft: 10,
-    marginRight: 10,
-    marginEnd: 10,
-  },
-  input: {
-    borderColor: "blue",
-  },
-  button: {
-    textAlign: "center",
-    borderWidth: 3,
-    borderColor: "#5A3D28",
-    width: 200,
-    borderRadius: 20,
-  },
-  buttonContainer: {
-    marginTop: 5,
-    alignContent: "center",
-    justifyContent: "center",
-    alignItems: "center",
-  },
   imageContainer: {
     alignContent: "center",
     justifyContent: "center",
     alignItems: "center",
-    margin: 10,
+    margin: 9,
   },
   tinyLogo: {
-    width: 220,
-    height: 220,
-  },
-  FormRadContainer: {
-    alignItems: "center",
-    justifyContent: "center",
-    marginLeft: 10,
-  },
-  scrollTypes: {
-    padding: 10,
-    height: 150,
-    backgroundColor: "#E2E2E2",
-    borderBottomColor: "#E80F0F",
-    borderRadius: 15,
+    width: 200,
+    height: 200,
   },
 });
 

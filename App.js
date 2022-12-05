@@ -17,6 +17,7 @@ import {
   RegisterScreen,
   RegisterForm,
   Notification,
+  Recover,
 } from "./app/screens";
 const Stack = createStackNavigator();
 
@@ -42,6 +43,7 @@ export default function App() {
           <Stack.Screen name="RegisterScreen" component={RegisterScreen} />
           <Stack.Screen name="RegisterForm" component={RegisterForm} />
           <Stack.Screen name="Notifications" component={Notification} />
+          <Stack.Screen name="Recover" component={Recover} />
           {/*<Stack.Screen name="Dashboard" component={Dashboard} />
           <Stack.Screen name="ResetPasswordScreen" component={ResetPasswordScreen} /> */}
         </Stack.Navigator>

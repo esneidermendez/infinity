@@ -2,6 +2,7 @@ import { initializeApp } from "firebase/app";
 import {
   getFirestore,
   collection,
+  getDoc,
   getDocs,
   doc,
   setDoc,
@@ -24,6 +25,7 @@ import {
   reauthenticateWithCredential,
   FacebookAuthProvider,
   signInWithPopup,
+  sendPasswordResetEmail,
 } from "firebase/auth";
 import Constants from "expo-constants";
 
@@ -59,6 +61,7 @@ export {
   firebaseApp,
   db,
   collection,
+  getDoc,
   getDocs,
   doc,
   dbSetDoc,
@@ -80,6 +83,7 @@ export {
   where,
   onSnapshot,
   FacebookAuthProvider,
+  sendPasswordResetEmail,
   signInWithPopup,
   deleteDoc,
 };

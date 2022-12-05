@@ -4,14 +4,22 @@ import { ListItem, Icon } from "react-native-elements";
 import { map } from "lodash";
 import Modal from "../../core/Modal";
 import ChangeName from "./change/changeName";
-import ChangePassword from "./change/ChangePassword";
+import ChangePassword from "./change/changePassword";
 import ChangeEmail from "./change/changeEmail";
+import ChangeGender from "./change/changeGender";
+import { firebaseauth, db, doc, getDoc } from "../../utils/dataBase/firabase";
+import { useEffect } from "react";
 
 function UserOption(props) {
   const { userInfo, setLoading, setLoadingText } = props;
+  const [Usu, setUsu] = useState();
   const [showModal, setshowModal] = useState(false);
   const [Datos, setDatos] = useState([]);
   const [renderComponent, setrenderComponent] = useState(null);
+
+  useEffect(() => {
+    getGender();
+  });
 
   const selectedComponent = (key) => {
     switch (key) {
@@ -19,6 +27,20 @@ function UserOption(props) {
         setrenderComponent(
           <ChangeName
             displayName={userInfo.displayName}
+            uid={userInfo.uid}
+            setshowModal={setshowModal}
+            setLoading={setLoading}
+            setLoadingText={setLoadingText}
+          />
+        );
+        setshowModal(true);
+        break;
+      case "Genero":
+        getGender();
+        setrenderComponent(
+          <ChangeGender
+            displayName={userInfo.displayName}
+            gender={Usu}
             uid={userInfo.uid}
             setshowModal={setshowModal}
             setLoading={setLoading}
@@ -56,6 +78,30 @@ function UserOption(props) {
     }
   };
 
+  const getGender = async () => {
+    const docRef = doc(db, "User", firebaseauth.currentUser.uid);
+    const docSnap = await getDoc(docRef);
+
+    if (docSnap.exists()) {
+      const { Gender, Name, Ndocument, Tdocument, photoURL, displayName } =
+        docSnap.data();
+      let initial = 0;
+      switch (Gender) {
+        case "Hombre  ":
+          initial = 0;
+          break;
+        case "Mujer  ":
+          initial = 1;
+          break;
+        case "Otro  ":
+          initial = 2;
+          break;
+        default:
+          break;
+      }
+      setUsu(initial);
+    }
+  };
   const menuOptions = generateOptions(selectedComponent);
 
   return (

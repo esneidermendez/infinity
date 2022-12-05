@@ -5,17 +5,12 @@ import { validateEmail } from "../../utils/Validations";
 import { size, isEmpty } from "lodash";
 import { useNavigation } from "@react-navigation/native";
 import Loading from "../../core/Loading";
-import RadioForm from "react-native-simple-radio-button";
 import {
   firebaseauth,
   updateProfil,
   createUser,
   db,
   doc,
-  UploadBytes,
-  collection,
-  storage,
-  getRef,
   dbSetDoc,
 } from "../../utils/dataBase/firabase";
 

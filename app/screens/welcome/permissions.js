@@ -12,7 +12,7 @@ export default function Permissions({ navigation }) {
     (async () => {
       const resultPermissions =
         await Location.requestForegroundPermissionsAsync();
-      if (statusPermissions.status !== "granted") {
+      if (resultPermissions.status !== "granted") {
         alert("Tienes que aceptar los permisos de localizacion", 3000);
         return;
       }

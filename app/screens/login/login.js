@@ -34,7 +34,7 @@ export default function Login() {
         ¿Olvidaste tu contraseña?{" "}
         <Text
           style={styles.btnRegister}
-          onPress={() => navigation.navigate("recover")}
+          onPress={() => navigation.navigate("Recover")}
         >
           Clic aquí {"\n \n"}
         </Text>

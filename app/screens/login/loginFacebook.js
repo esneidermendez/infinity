@@ -1,56 +1,52 @@
 import React, { useState } from "react";
 import { SocialIcon } from "react-native-elements";
-import {
-  firebaseauth,
-  FacebookAuthProvider,
-  signInWithPopup,
-} from "../../utils/dataBase/firabase";
 import { useNavigation } from "@react-navigation/native";
 import { FacebookApi } from "../../utils/social";
+import * as Facebook from "expo-facebook";
 import Loading from "../../core/Loading";
+import { signInWithCredential } from "../../utils/dataBase/firabase";
+import { async } from "@firebase/util";
 
 export default function LoginFacebook(props) {
   const { toastRef } = props;
   const navigation = useNavigation();
   const [loading, setLoading] = useState(false);
-  const provider = new FacebookAuthProvider();
 
-  const login = async () => {
-    provider.setCustomParameters({
-      display: "popup",
-    });
-
-    await signInWithPopup(firebaseauth, provider)
-      .then((result) => {
-        // The signed-in user info.
-        const user = result.user;
-
-        // This gives you a Facebook Access Token. You can use it to access the Facebook API.
-        const credential = FacebookAuthProvider.credentialFromResult(result);
-        const accessToken = credential.accessToken;
-
-        signInWithRedirect(firebaseauth, provider);
-      })
-      .catch((error) => {
-        // Handle Errors here.
-        const errorCode = error.code;
-        const errorMessage = error.message;
-        // The email of the user's account used.
-        const email = error.customData.email;
-        // The AuthCredential type that was used.
-        const credential = FacebookAuthProvider.credentialFromError(error);
-
-        // ...
+  const facebookLogin = async () => {
+    try {
+      await Facebook.initializeAsync({
+        appId: "742830203265105",
       });
+      const { type, token, expirationDate, permissions, declinedPermissions } =
+        await Facebook.logInWithReadPermissionsAsync({
+          permissions: ["public_profile"],
+        });
+      if (type === "success") {
+        // Get the user's name using Facebook's Graph API
+        setLoading(true);
+        const credentials = token;
+        signInWithCredential(credentials)
+          .then(() => {
+            setLoading(false);
+          })
+          .catch(() => {
+            setLoading(false);
+            toastRef.current.show("Credenciales incorrectas.");
+          });
+      } else {
+        // type === 'cancel'
+      }
+    } catch ({ message }) {
+      alert(`Facebook Login Error: ${message}`);
+    }
   };
-
   return (
     <>
       <SocialIcon
         title="Iniciar sesión con Facebook"
         button
         type="facebook"
-        onPress={login}
+        onPress={facebookLogin}
       />
       <Loading isVisible={loading} text="Iniciando sesión" />
     </>

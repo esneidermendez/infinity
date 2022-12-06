@@ -18,15 +18,21 @@
     "dotenv": "^16.0.0",
     "expo": "~45.0.0",
     "expo-constants": "~13.1.1",
+    "expo-device": "~4.2.0",
+    "expo-facebook": "^12.2.0",
     "expo-image-picker": "~13.1.1",
     "expo-location": "~14.2.2",
+    "expo-notifications": "~0.15.4",
     "expo-permissions": "^13.2.0",
     "expo-status-bar": "~1.3.0",
+    "expo-updates": "~0.13.4",
     "firebase": "^9.6.7",
     "moment": "^2.29.4",
     "react": "17.0.2",
+    "react-facebook-login": "^4.1.1",
     "react-native": "0.68.2",
     "react-native-elements": "^3.4.2",
+    "react-native-fbsdk-next": "^11.1.0",
     "react-native-gesture-handler": "~2.2.0",
     "react-native-keyboard-aware-scroll-view": "^0.9.5",
     "react-native-maps": "^0.30.1",
@@ -37,10 +43,7 @@
     "react-native-simple-radio-button": "^2.7.4",
     "react-native-svg": "12.3.0",
     "sdk": "^0.5.0",
-    "victory-native": "^36.6.8",
-    "expo-device": "~4.2.0",
-    "expo-notifications": "~0.15.4",
-    "expo-updates": "~0.13.4"
+    "victory-native": "^36.6.8"
   },
   "devDependencies": {
     "@babel/core": "^7.12.9"

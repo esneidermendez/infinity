@@ -26,8 +26,9 @@ import {
   FacebookAuthProvider,
   signInWithPopup,
   sendPasswordResetEmail,
+  signInWithRedirect,
+  getRedirectResult,
 } from "firebase/auth";
-import Constants from "expo-constants";
 
 // Firebase config
 const firebaseConfig = {
@@ -55,6 +56,7 @@ const UpdateEmail = updateEmail;
 const storage = getStorage(firebaseApp);
 const UploadBytes = uploadBytes;
 const DownloadURL = getDownloadURL;
+const InWithRedirect = signInWithRedirect;
 const getRef = ref;
 
 export {
@@ -85,5 +87,8 @@ export {
   FacebookAuthProvider,
   sendPasswordResetEmail,
   signInWithPopup,
+  InWithRedirect,
+  getRedirectResult,
   deleteDoc,
+  getAuth,
 };

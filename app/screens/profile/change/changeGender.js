@@ -80,6 +80,7 @@ const style = StyleSheet.create({
   },
   text: {
     color: "#9e9e9e",
+    marginBottom: "5%",
   },
   input: {
     marginBottom: 10,

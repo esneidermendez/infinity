@@ -188,12 +188,12 @@ export default class ListNews extends React.Component {
         <Button
           title="Registra una nueva noticia"
           type="outline"
-          titleStyle={{ color: "#000000" }}
+          titleStyle={{ color: "white" }}
           buttonStyle={{
             borderWidth: 3,
-            borderColor: "#000000",
+            borderColor: "#E02A35",
             borderRadius: 20,
-            backgroundColor: "#DDDDDD",
+            backgroundColor: "#E02A35",
             width: "80%",
             margin: 5,
             marginTop: "15%",

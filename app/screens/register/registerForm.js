@@ -1,6 +1,8 @@
 import React, { useState } from "react";
-import { View, Text, StyleSheet } from "react-native";
+import Checkbox from "expo-checkbox";
+import { View, Text, StyleSheet, Linking } from "react-native";
 import { Input, Icon, Button } from "react-native-elements";
+import RadioForm from "react-native-simple-radio-button";
 import { validateEmail } from "../../utils/Validations";
 import { size, isEmpty } from "lodash";
 import { useNavigation } from "@react-navigation/native";
@@ -18,7 +20,7 @@ function RegisterForm() {
   const state = {
     value: null,
   };
-
+  const [isChecked, setChecked] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [showRepPassword, setShowRepPassword] = useState(false);
   const [formData, setFormData] = useState(defaultFormValue());
@@ -78,47 +80,52 @@ function RegisterForm() {
   };
 
   const onSummit = () => {
-    if (
-      isEmpty(formData.email) ||
-      isEmpty(formData.password) ||
-      isEmpty(formData.repeatPassword) ||
-      isEmpty(Usu.Gender) ||
-      isEmpty(Usu.Name) ||
-      isEmpty(Usu.Ndocument) ||
-      isEmpty(Usu.Tdocument)
-    ) {
-      alert("Todos los campos son obligatorios");
-    } else if (!validateEmail(formData.email)) {
-      alert("El email no es valido");
-    } else if (formData.password !== formData.repeatPassword) {
-      alert("Las contraseñas deben ser iguales");
-    } else if (size(formData.password) < 6) {
-      alert("La contraseña debe tener minimo 6 caracteres");
+    if (isChecked == false) {
+      setLoading(false);
+      alert("Por favor aceptar terminos y condiciones");
     } else {
-      setLoading(true);
-      const update = {
-        displayName: Usu.Name,
-        photoURL: Usu.photoURL,
-      };
-      createUser(firebaseauth, formData.email, formData.password)
-        .then((response) => {
-          updateProfil(firebaseauth.currentUser, update)
-            .then(() => {
-              const uid = response.user.uid;
-              uploadImage(Usu.Gender);
-              createNewUsu(uid, formData.email);
+      if (
+        isEmpty(formData.email) ||
+        isEmpty(formData.password) ||
+        isEmpty(formData.repeatPassword) ||
+        isEmpty(Usu.Gender) ||
+        isEmpty(Usu.Name) ||
+        isEmpty(Usu.Ndocument) ||
+        isEmpty(Usu.Tdocument)
+      ) {
+        alert("Todos los campos son obligatorios");
+      } else if (!validateEmail(formData.email)) {
+        alert("El email no es valido");
+      } else if (formData.password !== formData.repeatPassword) {
+        alert("Las contraseñas deben ser iguales");
+      } else if (size(formData.password) < 6) {
+        alert("La contraseña debe tener minimo 6 caracteres");
+      } else {
+        setLoading(true);
+        const update = {
+          displayName: Usu.Name,
+          photoURL: Usu.photoURL,
+        };
+        createUser(firebaseauth, formData.email, formData.password)
+          .then((response) => {
+            updateProfil(firebaseauth.currentUser, update)
+              .then(() => {
+                const uid = response.user.uid;
+                uploadImage(Usu.Gender);
+                createNewUsu(uid, formData.email);
 
-              setLoading(false);
-              navigation.navigate("validateSession");
-            })
-            .catch((err) => {
-              setLoading(false);
-            });
-        })
-        .catch((err) => {
-          setLoading(false);
-          alert("El usuario ya esta registrado, intente con otro");
-        });
+                setLoading(false);
+                navigation.navigate("validateSession");
+              })
+              .catch((err) => {
+                setLoading(false);
+              });
+          })
+          .catch((err) => {
+            setLoading(false);
+            alert("El usuario ya esta registrado, intente con otro");
+          });
+      }
     }
   };
 
@@ -212,9 +219,31 @@ function RegisterForm() {
           />
         }
       />
+      <View style={styles.section}>
+        <Checkbox
+          style={styles.checkbox}
+          value={isChecked}
+          onValueChange={setChecked}
+          color={isChecked ? "#E02A35" : undefined}
+        />
+        <Text style={styles.paragraph}>
+          Acepto los {""}
+          <Text
+            style={styles.txtbtnRegister}
+            onPress={() =>
+              Linking.openURL(
+                "https://docs.google.com/document/d/1B5FLWrn1K8G_WfOTMSKlSJ9YyFXFdImi8KWWfNhtfgo/edit?usp=sharing"
+              )
+            }
+          >
+            Terminos y condiciones {"\n \n"}
+          </Text>
+          de SMRT
+        </Text>
+      </View>
       <Button
         title="Registrarse"
-        containerStyle={styles.btnContainerRegister}
+        containerStyle={styles.txtbtnContainerRegister}
         buttonStyle={styles.btnRegister}
         onPress={onSummit}
       />
@@ -260,6 +289,10 @@ const styles = StyleSheet.create({
     width: 150,
     borderRadius: 50,
   },
+  txtbtnRegister: {
+    color: "#E02A35",
+    fontWeight: "bold",
+  },
   iconRight: {
     color: "#9e9e9e",
   },
@@ -269,6 +302,18 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     marginLeft: 10,
     marginTop: 30,
+  },
+  section: {
+    flexDirection: "row",
+    alignItems: "center",
+    marginBottom: "5%",
+  },
+  paragraph: {
+    fontSize: 15,
+    justifyContent: "center",
+  },
+  checkbox: {
+    margin: 8,
   },
 });
 
